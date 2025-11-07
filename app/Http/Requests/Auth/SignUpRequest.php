@@ -28,7 +28,7 @@ class SignUpRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'role_id' => 'required|exists:roles,id',
         ];
     }
 
@@ -63,11 +63,8 @@ class SignUpRequest extends FormRequest
             'name.required' => 'O campo nome é obrigatório.',
             'email.required' => 'O campo e-mail é obrigatório.',
             'email.email' => 'Informe um e-mail válido.',
-            'password.required' => 'O campo senha é obrigatório.',
-            'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
-            'password.confirmed' => 'A confirmação de senha não confere.',
+            'role_id.required' => 'O campo cargo é obrigatório.',
+            'role_id.exists' => 'O cargo selecionado é inválido.',
         ];
     }
-
-    
 }

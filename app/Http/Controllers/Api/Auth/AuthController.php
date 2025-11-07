@@ -32,7 +32,16 @@ class AuthController extends Controller
 
     public function signUp(SignUpRequest $request)
     {
-        $user = User::create($request->validated());
+        $generatePassword = 'Usuario@flap123'; // TODO: gerar senha aleatória e enviar por email
+
+        $request->merge(['password' => $generatePassword]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $generatePassword,
+            'role_id' => $request->role_id,
+        ]);
         if ($user) {
             return response()->json(['message' => 'User registered successfully'], 201);
         }
