@@ -24,7 +24,7 @@ class AuthController extends Controller
         $accessToken = JWTAuth::attempt($credentials);
         //TODO lidar com o token expirado
         if (!$accessToken) {
-            return response()->json(['message' => 'Invalid credentials'], 404);
+            return response()->json(['message' => 'Invalid credentials'], 400);
         }
 
         return $this->respondWithToken($accessToken);
@@ -38,6 +38,16 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'User registration failed'], 500);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return response()->json(auth()->user());
     }
 
     /**
