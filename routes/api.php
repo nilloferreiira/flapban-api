@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Roles\RolesController;
 use App\Http\Controllers\Api\Users\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +33,6 @@ Route::post('/auth/me', [AuthController::class, 'me']);
 Route::middleware('auth:api')->group(function () {
     // Users
     Route::resource('/users', UsersController::class);
+    // Roles
+    Route::resource('/roles', RolesController::class);
 });
