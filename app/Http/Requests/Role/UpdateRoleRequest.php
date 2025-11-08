@@ -16,6 +16,7 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string|max:500',
             'permissions' => 'sometimes|array',
             'permissions.*' => 'integer|exists:permissions,id',
         ];
@@ -25,6 +26,9 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'name.string' => 'O nome da role deve ser um texto.',
+            'name.max' => 'O nome da role não pode exceder 255 caracteres.',
+            'description.string' => 'A descrição da role deve ser um texto.',
+            'description.max' => 'A descrição da role não pode exceder 1000 caracteres.',
             'permissions.array' => 'As permissões devem ser um array de IDs.',
             'permissions.*.integer' => 'Cada permissão deve ser um ID inteiro.',
             'permissions.*.exists' => 'Permissão informada não existe.',

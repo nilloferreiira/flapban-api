@@ -30,6 +30,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|string|email|max:255',
             'password' => 'sometimes|string|min:8|confirmed',
+            'role_id' => 'sometimes|integer|exists:roles,id',
         ];
     }
 
@@ -50,6 +51,7 @@ class UpdateUserRequest extends FormRequest
             'email.unique' => 'O e-mail já está em uso por outro usuário.',
             'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
             'password.confirmed' => 'A confirmação da senha não corresponde.',
+            'role_id.exists' => 'O cargo informado não existe.',
         ];
     }
 }

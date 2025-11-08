@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Roles;
 
+use App\Constants\Permissions;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\CreateRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
@@ -17,7 +18,7 @@ class RolesController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->hasPermission('view_role')) {
+        if (!$user->hasPermission(Permissions::VIEW_ROLE)) {
             return response()->json(['message' => 'Você não tem permissão para visualizar os cargos'], 403);
         }
 
@@ -42,7 +43,7 @@ class RolesController extends Controller
 
         $user = $request->user();
 
-        if (!$user->hasPPermission('create_role')) {
+        if (!$user->hasPermission(Permissions::CREATE_ROLE)) {
             return response()->json(['message' => 'Você não tem permissão para criar cargos'], 403);
         }
 
@@ -69,7 +70,7 @@ class RolesController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->hasPPermission('update_role')) {
+        if (!$user->hasPermission(Permissions::EDIT_ROLE)) {
             return response()->json(['message' => 'Você não tem permissão para atualizar cargos'], 403);
         }
 
@@ -84,7 +85,10 @@ class RolesController extends Controller
         $permissions = $data['permissions'] ?? [];
         unset($data['permissions']);
 
-        $role->update($data);
+        $role->update([
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+        ]);
 
         $role->permissions()->sync($permissions);
 
@@ -96,7 +100,7 @@ class RolesController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->hasPPermission('delete_role')) {
+        if (!$user->hasPermission(Permissions::DELETE_ROLE)) {
             return response()->json(['message' => 'Você não tem permissão para excluir cargos'], 403);
         }
         $role = Role::findOrFail($id);

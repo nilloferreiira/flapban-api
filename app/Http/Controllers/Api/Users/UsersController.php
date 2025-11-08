@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Users;
 
+use App\Constants\Permissions;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Users\DeleteUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
@@ -14,8 +15,14 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $authenticatedUser = $request->user();
+
+        if (!$authenticatedUser->hasPermission(Permissions::VIEW_USER)) {
+            return response()->json(['message' => 'Você não tem permissão para visualizar usuários'], 403);
+        }
+
         $users = User::paginate(10);
         return response()->json($users);
     }
@@ -26,8 +33,14 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $authenticatedUser = $request->user();
+
+        if (!$authenticatedUser->hasPermission(Permissions::VIEW_USER)) {
+            return response()->json(['message' => 'Você não tem permissão para visualizar usuários'], 403);
+        }
+
         $user = User::find($id);
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
@@ -45,6 +58,12 @@ class UsersController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
+        $authenticatedUser = $request->user();
+
+        if (!$authenticatedUser->hasPermission(Permissions::EDIT_USER)) {
+            return response()->json(['message' => 'Você não tem permissão para atualizar usuários'], 403);
+        }
+
         $user = User::find($id);
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
@@ -59,12 +78,12 @@ class UsersController extends Controller
             }
         }
 
-        //TODO roles
-        $data = $request->only(['name', 'email', 'password']);
+        $data = $request->only(['name', 'email', 'password', 'role_id']);
         // Remove campos vazios para não sobrescrever com null
         $data = array_filter($data, fn($v) => $v !== null && $v !== '');
 
         $user->update($data);
+
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
     }
 
@@ -74,9 +93,13 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //TODO autorizacao
+        $authenticatedUser = $request->user();
+
+        if (!$authenticatedUser->hasPermission(Permissions::DELETE_USER)) {
+            return response()->json(['message' => 'Você não tem permissão para excluir usuários'], 403);
+        }
 
         $user = User::find($id);
         if (!$user) {
