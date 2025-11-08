@@ -37,4 +37,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/roles/permissions', [RolesController::class, 'getAllPermissions']);
     // Roles
     Route::resource('/roles', RolesController::class);
+    // Clients
+
+    // Boards
+
+    // Tasks | Cards | Jobs
 });
