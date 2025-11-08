@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['signIn', 'signUp']]);
+        $this->middleware('auth:api', ['except' => ['signIn', 'signUp', 'refresh']]);
     }
 
     public function signIn(SignInRequest $request)
@@ -81,10 +81,11 @@ class AuthController extends Controller
     {
         try {
             $newToken = JWTAuth::parseToken()->refresh();
-
             return $this->respondWithToken($newToken);
+        } catch (TokenExpiredException $e) {
+            return response()->json(['message' => 'Token expirado'], 401);
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return response()->json(['message' => 'Token inválido ou expirado'], 401);
+            return response()->json(['message' => 'Token inválido'], 401);
         }
     }
 
