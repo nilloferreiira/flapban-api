@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +52,19 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
     {
-        return response()->json(['message' => 'Unauthorized'], 401);
+        return response()->json([
+            'message' => $exception->getMessage() ?: 'Unauthorized'
+        ], 401);
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof TokenExpiredException) {
+            return response()->json(['message' => 'Token expirado'], 401);
+        }
+        if ($exception instanceof TokenInvalidException) {
+            return response()->json(['message' => 'Token inválido'], 401);
+        }
+        return parent::render($request, $exception);
     }
 }

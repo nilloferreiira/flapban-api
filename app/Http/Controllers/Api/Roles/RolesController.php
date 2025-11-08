@@ -45,8 +45,6 @@ class RolesController extends Controller
             'description' => $data['description'] ?? null,
         ]);
 
-        //todo relacionar as permissões
-
         $role->permissions()->sync($permissions);
 
         return response()->json(['message' => 'Role created successfully', 'role' => $role], 201);
