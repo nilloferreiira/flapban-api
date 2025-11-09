@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers\Api\Clients;
+
+use App\Http\Controllers\Controller;
+use App\Services\Clients\ClientsService;
+use Illuminate\Http\Request;
+
+class ClientsController extends Controller
+{
+    protected ClientsService $clientsService;
+
+    public function __construct(ClientsService $clientsService)
+    {
+        $this->clientsService = $clientsService;
+    }
+
+    // Lista todos os clientes
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        return $this->clientsService->listClients($user);
+    }
+
+    /**
+     * Exibe um cliente específico.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $id)
+    {
+        $user = $request->user();
+        return $this->clientsService->getClientById($user, $id);
+    }
+
+    // Cria um novo cliente
+    public function store(Request $request)
+    {
+        $user = $request->user();
+        $data = $request->all();
+        return $this->clientsService->createClient($user, $data);
+    }
+
+    // Atualiza um cliente existente
+    public function update(Request $request, $id)
+    {
+        $user = $request->user();
+        $data = $request->all();
+        return $this->clientsService->updateClient($user, $id, $data);
+    }
+
+    // Exclui (soft delete) um cliente
+    public function destroy(Request $request, $id)
+    {
+        $user = $request->user();
+        return $this->clientsService->deleteClient($user, $id);
+    }
+}

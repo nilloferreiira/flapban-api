@@ -38,7 +38,13 @@ class RolesService
     {
         if ($permission = $this->checkPermission($user, Permissions::VIEW_ROLE)) return $permission;
 
-        return response()->json(Role::findOrFail($id));
+        $role = Role::find($id);
+
+        if (!$role) {
+            return response()->json(['message' => 'Cargo não encontrado'], 404);
+        }
+
+        return response()->json($role);
     }
 
     /**
