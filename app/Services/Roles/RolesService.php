@@ -65,7 +65,7 @@ class RolesService
 
         $role->permissions()->sync($permissions);
 
-        return response()->json(['message' => 'Role created successfully', 'role' => $role], 201);
+        return response()->json(['message' => 'Cargo criado com sucesso', 'role' => $role], 201);
     }
 
     /**
@@ -92,7 +92,7 @@ class RolesService
 
         $role->permissions()->sync($permissions);
 
-        return response()->json(['message' => 'Role updated successfully', 'role' => $role], 200);
+        return response()->json(['message' => 'Cargo atualizado com sucesso', 'role' => $role], 200);
     }
 
     /**
@@ -109,10 +109,10 @@ class RolesService
         $role = Role::findOrFail($id);
 
         if ($role->is_system_role) {
-            return response()->json(['message' => 'System roles cannot be deleted'], 403);
+            return response()->json(['message' => 'Cargos de sistema não podem ser excluídos'], 403);
         }
         $role->delete();
 
-        return response()->json(['message' => 'Role deleted successfully'], 200);
+        return response()->json(['message' => 'Cargo excluído com sucesso'], 200);
     }
 }
