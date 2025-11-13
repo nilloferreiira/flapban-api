@@ -11,6 +11,21 @@ services:
     networks:
       - laravel
 
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: flapdb
+      MYSQL_USER: flap
+      MYSQL_PASSWORD: jivjjb3yBl1Jk01z
+      MYSQL_ROOT_PASSWORD: rootsecret
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel
+
   nginx:
     image: nginx:latest
     ports:
@@ -26,3 +41,6 @@ services:
 networks:
   laravel:
     driver: bridge
+
+volumes:
+  dbdata:
