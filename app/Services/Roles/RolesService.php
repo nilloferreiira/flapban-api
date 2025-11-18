@@ -86,13 +86,20 @@ class RolesService
     {
         if ($permission = $this->checkPermission($user, Permissions::EDIT_ROLE)) return $permission;
 
-        $role = Role::findOrFail($id);
+        $role = Role::find($id);
+
+        if (!$role) {
+            return response()->json(['message' => 'Cargo não encontrado'], 404);
+        }
 
         $permissions = $data['permissions'] ?? [];
         unset($data['permissions']);
 
+        $newSlug = Str::slug($data['name']);
+
         $role->update([
             'name' => $data['name'],
+            'slug' => $newSlug,
             'description' => $data['description'] ?? null,
         ]);
 
@@ -112,7 +119,11 @@ class RolesService
     {
         if ($permission = $this->checkPermission($user, Permissions::DELETE_ROLE)) return $permission;
 
-        $role = Role::findOrFail($id);
+        $role = Role::find($id);
+
+        if (!$role) {
+            return response()->json(['message' => 'Cargo não encontrado'], 404);
+        }
 
         if ($role->is_system_role) {
             return response()->json(['message' => 'Cargos de sistema não podem ser excluídos'], 403);

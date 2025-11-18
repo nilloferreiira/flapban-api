@@ -40,7 +40,7 @@ class BoardsService
         $board = Board::find($id);
 
         if (!$board) {
-            return response()->json(['message' => 'Board não encontrado'], 404);
+            return response()->json(['message' => 'Lista não encontrado'], 404);
         }
 
         return response()->json($board);
@@ -61,7 +61,7 @@ class BoardsService
             'name' => $data['name']
         ]);
 
-        return response()->json(['message' => 'Board criado com sucesso', 'board' => $board], 201);
+        return response()->json(['message' => 'Lista criado com sucesso', 'Lista' => $board], 201);
     }
 
     /**
@@ -76,13 +76,16 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
 
-        $board = Board::findOrFail($id);
+        $board = Board::find($id);
+        if (!$board) {
+            return response()->json(['message' => 'Lista não encontrado'], 404);
+        }
 
         $board->update([
             'name' => $data['name'],
         ]);
 
-        return response()->json(['message' => 'Board atualizado com sucesso', 'board' => $board], 200);
+        return response()->json(['message' => 'Lista atualizado com sucesso', 'Lista' => $board], 200);
     }
 
     /**
@@ -96,9 +99,12 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::DELETE_JOB)) return $permission;
 
-        $board = Board::findOrFail($id);
+        $board = Board::find($id);
+        if (!$board) {
+            return response()->json(['message' => 'Lista não encontrado'], 404);
+        }
         $board->delete();
 
-        return response()->json(['message' => 'Board excluído com sucesso'], 204);
+        return response()->json(['message' => 'Lista excluído com sucesso'], 204);
     }
 }
