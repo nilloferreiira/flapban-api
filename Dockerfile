@@ -31,6 +31,12 @@ COPY --from=composer_build /app/vendor /var/www/vendor
 # Copia o código da aplicação
 COPY . .
 
+# Copia o entrypoint para o container
+COPY entrypoint.sh /entrypoint.sh
+
+# Dá permissão de execução
+RUN chmod +x /entrypoint.sh
+
 # Cria um usuário não-root (boa prática de segurança)
 RUN usermod -u 1000 www-data
 
@@ -45,7 +51,7 @@ USER www-data
 EXPOSE 9000
 
 # Comando para iniciar o PHP-FPM
-# CMD ["php artisan migrate --force", "php-fpm"]
+# CMD ["php-fpm"]
 
-# Comando para rodar as migrations seeders iniciar o PHP-FPM
-CMD php artisan migrate --seed --force && php-fpm
+# Define o entrypoint customizado
+ENTRYPOINT ["/entrypoint.sh"]
