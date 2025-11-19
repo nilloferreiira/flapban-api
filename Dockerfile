@@ -45,4 +45,7 @@ USER www-data
 EXPOSE 9000
 
 # Comando para iniciar o PHP-FPM
-CMD ["php-fpm"]
+# CMD ["php artisan migrate --force", "php-fpm"]
+
+# Comando para rodar as migrations seeders iniciar o PHP-FPM
+CMD php artisan migrate --seed --force && php-fpm
