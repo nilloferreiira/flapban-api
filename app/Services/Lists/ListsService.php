@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Services\Boards;
+namespace App\Services\Lists;
 
 use App\Constants\Permissions;
-use App\Models\Board\Board;
+use App\Models\List\ListModel;
 use App\Models\User;
 use App\Traits\CheckPermission;
 use Illuminate\Support\Str;
 
-class BoardsService
+class ListsService
 {
     use CheckPermission;
 
     /**
-     * Lista todos os boards.
+     * Lista todas as listas.
      *
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
@@ -22,12 +22,12 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::VIEW_JOB)) return $permission;
 
-        $boards = Board::paginate(20);
-        return response()->json($boards);
+        $lists = ListModel::paginate(20);
+        return response()->json($lists);
     }
 
     /**
-     * Retorna um board pelo ID.
+     * Retorna uma lista pelo ID.
      *
      * @param User $user
      * @param int $id
@@ -37,17 +37,17 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::VIEW_JOB)) return $permission;
 
-        $board = Board::find($id);
+        $list = ListModel::find($id);
 
-        if (!$board) {
-            return response()->json(['message' => 'Lista não encontrado'], 404);
+        if (!$list) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
         }
 
-        return response()->json($board);
+        return response()->json($list);
     }
 
     /**
-     * Cria um novo board.
+     * Cria uma nova lista.
      *
      * @param User $user
      * @param array $data
@@ -57,15 +57,15 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::CREATE_JOB)) return $permission;
 
-        $board = Board::create([
+        $list = ListModel::create([
             'name' => $data['name']
         ]);
 
-        return response()->json(['message' => 'Lista criado com sucesso', 'Lista' => $board], 201);
+        return response()->json(['message' => 'Lista criada com sucesso', 'lista' => $list], 201);
     }
 
     /**
-     * Atualiza um board existente.
+     * Atualiza uma lista existente.
      *
      * @param User $user
      * @param int $id
@@ -76,20 +76,20 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
 
-        $board = Board::find($id);
-        if (!$board) {
-            return response()->json(['message' => 'Lista não encontrado'], 404);
+        $list = ListModel::find($id);
+        if (!$list) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
         }
 
-        $board->update([
+        $list->update([
             'name' => $data['name'],
         ]);
 
-        return response()->json(['message' => 'Lista atualizado com sucesso', 'Lista' => $board], 200);
+        return response()->json(['message' => 'Lista atualizada com sucesso', 'lista' => $list], 200);
     }
 
     /**
-     * Exclui um board.
+     * Exclui uma lista.
      *
      * @param User $user
      * @param int $id
@@ -99,12 +99,12 @@ class BoardsService
     {
         if ($permission = $this->checkPermission($user, Permissions::DELETE_JOB)) return $permission;
 
-        $board = Board::find($id);
-        if (!$board) {
-            return response()->json(['message' => 'Lista não encontrado'], 404);
+        $list = ListModel::find($id);
+        if (!$list) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
         }
-        $board->delete();
+        $list->delete();
 
-        return response()->json(['message' => 'Lista excluído com sucesso'], 204);
+        return response()->json(['message' => 'Lista excluída com sucesso'], 204);
     }
 }
