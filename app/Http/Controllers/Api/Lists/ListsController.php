@@ -17,17 +17,29 @@ class ListsController extends Controller
 
     public function index(Request $request)
     {
-        return response()->json($this->listsService->getAll($request->user()));
+        $user = $request->user();
+
+        return $this->listsService->getAll($user);
     }
 
     public function store(Request $request)
     {
-        return $this->listsService->create($request->user(), $request->all());
+        $user = $request->user();
+
+        $data = $request->all();
+
+        if (!$data['name']) {
+            return response()->json(['message' => 'O campo nome é obrigatório'], 400);
+        }
+
+        return $this->listsService->create($user, $data);
     }
 
     public function show(Request $request, $id)
     {
-        return $this->listsService->getById($request->user(), $id);
+        $user = $request->user();
+
+        return $this->listsService->getById($user, $id);
     }
 
     public function update(Request $request, $id)

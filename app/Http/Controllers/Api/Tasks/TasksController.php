@@ -19,7 +19,8 @@ class TasksController extends Controller
 
     public function index(Request $request)
     {
-        return response()->json($this->tasksService->getAll($request->user()));
+        $user = $request->user();
+        return $this->tasksService->getAll($user);
     }
 
     public function store(CreateTaskRequest $request)
