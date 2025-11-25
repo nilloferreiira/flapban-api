@@ -103,6 +103,11 @@ class ListsService
         if (!$list) {
             return response()->json(['message' => 'Lista não encontrada'], 404);
         }
+
+        if ($list->tasks()->count() > 0) {
+            return response()->json(['message' => 'Não é possível excluir uma lista que contém tarefas'], 400);
+        }
+
         $list->delete();
 
         return response()->json(['message' => 'Lista excluída com sucesso'], 204);
