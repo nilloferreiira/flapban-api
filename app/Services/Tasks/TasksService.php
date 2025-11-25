@@ -41,7 +41,7 @@ class TasksService
 
         $task = Task::create($data);
         $task->refresh();
-        return response()->json(['message' => 'Tarefa criada com sucesso', 'tarefa' => $task], 201);
+        return response()->json(['message' => 'Tarefa criada com sucesso', 'task' => $task], 201);
     }
 
     public function update(User $user, $id, $data)
@@ -63,7 +63,7 @@ class TasksService
             'position' => $data['position'] ?? $task->position,
         ]);
         $task->refresh();
-        return response()->json(['message' => 'Tarefa atualizada com sucesso', 'tarefa' => $task], 200);
+        return response()->json(['message' => 'Tarefa atualizada com sucesso', 'task' => $task], 200);
     }
 
     public function delete(User $user, $id)

@@ -61,7 +61,7 @@ class ListsService
             'name' => $data['name']
         ]);
 
-        return response()->json(['message' => 'Lista criada com sucesso', 'lista' => $list], 201);
+        return response()->json(['message' => 'Lista criada com sucesso', 'list' => $list], 201);
     }
 
     /**
@@ -85,7 +85,7 @@ class ListsService
             'name' => $data['name'],
         ]);
 
-        return response()->json(['message' => 'Lista atualizada com sucesso', 'lista' => $list], 200);
+        return response()->json(['message' => 'Lista atualizada com sucesso', 'list' => $list], 200);
     }
 
     /**
