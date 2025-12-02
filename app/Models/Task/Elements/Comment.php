@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Comment extends Model
 {
@@ -28,5 +29,19 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public static function createFor(Task $task, User $user, string $content): self
+    {
+        return DB::transaction(function () use ($task, $user, $content) {
+            $comment = self::create([
+                'task_id' => $task->id,
+                'user_id' => $user->id,
+                'content' => $content,
+            ]);
+
+            // aqui você pode emitir eventos, notificar, etc.
+            return $comment;
+        });
     }
 }
