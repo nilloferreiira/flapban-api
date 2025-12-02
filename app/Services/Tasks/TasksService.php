@@ -321,7 +321,7 @@ class TasksService
     // ---------- Task elements: Members
     public function createMember(User $user, $taskId, $data)
     {
-        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+        if ($permission = $this->checkPermission($user, Permissions::EDIT_MEMBERS)) return $permission;
 
         $task = Task::find($taskId);
         if (!$task) return response()->json(['message' => 'Tarefa não encontrada'], 404);
@@ -339,7 +339,7 @@ class TasksService
 
     public function deleteMember(User $user, $taskId, $id)
     {
-        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+        if ($permission = $this->checkPermission($user, Permissions::EDIT_MEMBERS)) return $permission;
 
         $membership = TaskMember::find($id);
         if (! $membership || $membership->task_id != $taskId) return response()->json(['message' => 'Membro não encontrado'], 404);

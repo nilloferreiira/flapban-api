@@ -34,7 +34,7 @@ class TaskMember extends Model
         // evita duplicata
         $existing = self::where('task_id', $task->id)
             ->where('user_id', $user->id)
-            ->first();
+            ->exists();
 
         if ($existing) {
             return $existing; // ou retornar null ou lançar uma exceção
@@ -52,7 +52,7 @@ class TaskMember extends Model
             ->where('user_id', $user->id)
             ->first();
 
-        if (! $membership) {
+        if (!$membership) {
             return false;
         }
 

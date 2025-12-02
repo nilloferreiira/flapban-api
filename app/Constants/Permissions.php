@@ -8,6 +8,7 @@ class Permissions
     public const CREATE_LIST   = 'create_list';
     public const EDIT_LIST     = 'edit_list';
     public const DELETE_LIST   = 'delete_list';
+    public const ARCHIVE_LIST  = 'archive_list';
 
     // Permissões de jobs
     public const VIEW_JOB      = 'view_job';
