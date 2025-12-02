@@ -41,7 +41,7 @@ class RoleSeeder extends Seeder
             $role = Role::firstOrCreate(['slug' => $roleData['slug']], $roleData);
 
             switch ($role->slug) {
-                case 'admin':
+                case 'super_admin':
                     $permissionIds = Permission::pluck('id')->toArray();
                     break;
                 case 'gerente_de_projetos':

@@ -179,7 +179,7 @@ class TasksService
     // Comments
     public function createComment(User $user, $taskId, $data)
     {
-        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+        if ($permission = $this->checkPermission($user, Permissions::COMMENT_ON_JOB)) return $permission;
 
         $task = Task::find($taskId);
         if (!$task) return response()->json(['message' => 'Tarefa não encontrada'], 404);
@@ -187,18 +187,18 @@ class TasksService
         $content = $data['content'] ?? null;
         if (! $content) return response()->json(['message' => 'Conteúdo do comentário é obrigatório'], 422);
 
-        $comment = Comment::create([
-            'task_id' => $task->id,
-            'user_id' => $user->id,
-            'content' => $content,
-        ]);
+        $comment = Comment::createFor(
+            $task,
+            $user,
+            $content
+        );
 
         return response()->json(['message' => 'Comentário criado com sucesso', 'comment' => $comment], 201);
     }
 
     public function updateComment(User $user, $taskId, $id, $data)
     {
-        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+        if ($permission = $this->checkPermission($user, Permissions::COMMENT_ON_JOB)) return $permission;
 
         $comment = Comment::where('id', $id)->where('task_id', $taskId)->first();
         if (! $comment) return response()->json(['message' => 'Comentário não encontrado'], 404);
@@ -211,10 +211,15 @@ class TasksService
 
     public function deleteComment(User $user, $taskId, $id)
     {
-        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+        // dd($taskId, $id);
+        if ($permission = $this->checkPermission($user, Permissions::COMMENT_ON_JOB)) return $permission;
 
         $comment = Comment::where('id', $id)->where('task_id', $taskId)->first();
         if (! $comment) return response()->json(['message' => 'Comentário não encontrado'], 404);
+
+        if ($comment->user_id != $user->id) {
+            return response()->json(['message' => 'Você não tem permissão para excluir este comentário'], 403);
+        }
 
         $comment->delete();
         return response()->json(['message' => 'Comentário excluído com sucesso'], 204);
