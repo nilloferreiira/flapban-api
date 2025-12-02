@@ -47,4 +47,25 @@ Route::middleware('auth:api')->group(function () {
     // Tasks 
     Route::resource('tasks', TasksController::class);
     Route::put('tasks/{id}/move', [TasksController::class, 'moveTask']);
+    // Task elements
+    Route::prefix('tasks/{taskId}')->group(function () {
+        // comments
+        Route::post('comments', [TasksController::class, 'createComment']);
+        Route::put('comments/{id}', [TasksController::class, 'updateComment']);
+        Route::delete('comments/{id}', [TasksController::class, 'deleteComment']);
+
+        // checklists
+        Route::post('checklists', [TasksController::class, 'createChecklist']);
+        Route::put('checklists/{id}', [TasksController::class, 'updateChecklist']);
+        Route::delete('checklists/{id}', [TasksController::class, 'deleteChecklist']);
+
+        // links
+        Route::post('links', [TasksController::class, 'createLink']);
+        Route::put('links/{id}', [TasksController::class, 'updateLink']);
+        Route::delete('links/{id}', [TasksController::class, 'deleteLink']);
+
+        // members
+        Route::post('members', [TasksController::class, 'createMember']);
+        Route::delete('members/{id}', [TasksController::class, 'deleteMember']);
+    });
 });
