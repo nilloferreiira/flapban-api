@@ -15,6 +15,7 @@ class Link extends Model
 
     protected $fillable = [
         'task_id',
+        'title',
         'url',
     ];
 

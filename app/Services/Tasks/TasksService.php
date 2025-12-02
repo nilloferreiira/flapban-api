@@ -277,12 +277,13 @@ class TasksService
         if (!$task) return response()->json(['message' => 'Tarefa não encontrada'], 404);
 
         $url = trim($data['url'] ?? '');
-        if (! $url || ! filter_var($url, FILTER_VALIDATE_URL)) {
+        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
             return response()->json(['message' => 'URL inválida'], 422);
         }
 
         $link = Link::create([
             'task_id' => $task->id,
+            'title' => $data['title'] ?? null,
             'url' => $url,
         ]);
 
@@ -301,8 +302,10 @@ class TasksService
             return response()->json(['message' => 'URL inválida'], 422);
         }
 
-        $link->url = $url;
-        $link->save();
+        $link->update([
+            'title' => $data['title'] ?? $link->title,
+            'url' => $url,
+        ]);
 
         return response()->json(['message' => 'Link atualizado com sucesso', 'link' => $link], 200);
     }

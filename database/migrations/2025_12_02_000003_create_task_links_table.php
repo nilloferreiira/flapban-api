@@ -16,6 +16,7 @@ class CreateTaskLinksTable extends Migration
         Schema::create('task_links', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('task_id');
+            $table->string('title')->nullable();
             $table->string('url');
             $table->timestamps();
             $table->softDeletes();
