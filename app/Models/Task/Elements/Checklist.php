@@ -39,12 +39,14 @@ class Checklist extends Model
      * @param  array  $data  ['description' => string, 'is_completed' => bool]
      * @return ChecklistItem
      */
-    public function addItem(array $data): ChecklistItem
+    public function addItem($description, $is_completed = false): ChecklistItem
     {
-        $payload = array_merge([
-            'description' => '',
-            'is_completed' => false,
-        ], $data);
+        $payload = [
+            'description' => $description,
+            'is_completed' => $is_completed,
+        ];
+
+        return $this->items()->create($payload);
 
         return $this->items()->create($payload);
     }

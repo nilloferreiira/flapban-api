@@ -250,6 +250,25 @@ class TasksService
         return response()->json(['message' => 'Checklist criado com sucesso', 'checklist' => $checklist], 201);
     }
 
+    public function createChecklistItem(User $user, $taskId, $checkListId, $data)
+    {
+        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+
+        $task = Task::find($taskId);
+        if (!$task) return response()->json(['message' => 'Tarefa não encontrada'], 404);
+
+        $description = $data['description'] ?? null;
+        if (! $description) return response()->json(['message' => 'Descrição é obrigatória'], 422);
+
+        $checklist = $task->checklists()->find($checkListId);
+
+        if (! $checklist) return response()->json(['message' => 'Checklist não encontrado'], 404);
+
+        $checklistItem = $checklist->addItem($description);
+
+        return response()->json(['message' => 'Item do checklist criado com sucesso', 'item' => $checklistItem], 201);
+    }
+
     public function updateChecklist(User $user, $taskId, $id, $data)
     {
         if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;

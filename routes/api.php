@@ -54,8 +54,9 @@ Route::middleware('auth:api')->group(function () {
         Route::put('comments/{id}', [TasksController::class, 'updateComment']);
         Route::delete('comments/{id}', [TasksController::class, 'deleteComment']);
 
-        // checklists
+        // checklists 
         Route::post('checklists', [TasksController::class, 'createChecklist']);
+        Route::post('checklists/{id}/item', [TasksController::class, 'createChecklistItem']);
         Route::put('checklists/{id}', [TasksController::class, 'updateChecklist']);
         Route::patch('checklists/{id}/item/{itemId}', [TasksController::class, 'updateChecklistItem']);
         Route::patch('checklists/{id}/item/{itemId}/toggle', [TasksController::class, 'markChecklistItem']);

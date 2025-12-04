@@ -71,6 +71,26 @@ class TasksController extends Controller
         return $this->tasksService->createChecklist($request->user(), $taskId, $request->validated());
     }
 
+    public function createChecklistItem(Request $request, $taskId, $checklistId)
+    {
+        $validator = Validator::make($request->all(), [
+            'description' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Erro de validação ' . $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $data = $validator->validated();
+
+        return $this->tasksService->createChecklistItem($request->user(), $taskId, $checklistId, $data);
+    }
+
+
+
     public function updateChecklist(UpdateCheckListRequest $request, $taskId, $id)
     {
         return $this->tasksService->updateChecklist($request->user(), $taskId, $id, $request->validated());
