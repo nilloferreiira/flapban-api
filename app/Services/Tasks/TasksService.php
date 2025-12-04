@@ -247,6 +247,8 @@ class TasksService
             $checklist->items()->createMany($items);
         }
 
+        $checklist->loadMissing('items');
+
         return response()->json(['message' => 'Checklist criado com sucesso', 'checklist' => $checklist], 201);
     }
 
