@@ -428,6 +428,8 @@ class TasksService
 
         $membership = TaskMember::addMember($task, $memberUser);
 
+        $membership->loadMissing('user');
+
         return response()->json(['message' => 'Membro adicionado com sucesso', 'member' => $membership], 201);
     }
 
