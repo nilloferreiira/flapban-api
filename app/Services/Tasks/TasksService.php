@@ -294,6 +294,22 @@ class TasksService
         return response()->json(['message' => 'Checklist excluído com sucesso'], 204);
     }
 
+    public function deleteChecklistItem(User $user, $taskId, $checklistId, $itemId)
+    {
+        if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;
+
+        $checklist = Checklist::where('id', $checklistId)->where('task_id', $taskId)->first();
+        if (! $checklist) return response()->json(['message' => 'Checklist não encontrado'], 404);
+
+        $item = $checklist->items()->where('id', $itemId)->first();
+        if (! $item) return response()->json(['message' => 'Item do checklist não encontrado'], 404);
+
+
+        $item->delete();
+
+        return response()->json(['message' => 'Item do checklist excluído com sucesso'], 204);
+    }
+
     public function updateCheckListItem(User $user, $taskId, $checklistId, $itemId, $data)
     {
         if ($permission = $this->checkPermission($user, Permissions::EDIT_JOB)) return $permission;

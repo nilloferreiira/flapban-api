@@ -101,6 +101,11 @@ class TasksController extends Controller
         return $this->tasksService->deleteChecklist($request->user(), $taskId, $id);
     }
 
+    public function deleteChecklistItem(Request $request, $taskId, $checklistId, $itemId)
+    {
+        return $this->tasksService->deleteChecklistItem($request->user(), $taskId, $checklistId, $itemId);
+    }
+
     public function updateCheckListItem(Request $request, $taskId, $checklistId, $itemId)
     {
         $validator = Validator::make($request->all(), [
