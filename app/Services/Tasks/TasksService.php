@@ -119,7 +119,7 @@ class TasksService
                 $task->position = $position;
                 $task->save();
             } else {
-                if ($permission = $this->checkPermission($user, Permissions::MOVE_JOBS_BETWEEN_LISTS)) return $permission;
+                if ($permission = $this->checkPermission($user, Permissions::MOVE_JOB)) return $permission;
 
                 $this->updatePositionsBetweenLists($task, $listId, $position);
                 $task->list_id = $listId;
