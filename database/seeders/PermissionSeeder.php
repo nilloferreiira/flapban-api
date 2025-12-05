@@ -26,10 +26,9 @@ class PermissionSeeder extends Seeder
             ['slug' => 'create_job',      'label' => 'Criar jobs'],
             ['slug' => 'edit_job',        'label' => 'Editar jobs'],
             ['slug' => 'delete_job',      'label' => 'Excluir jobs'],
-            ['slug' => 'move_job',        'label' => 'Mover jobs entre colunas'],
+            ['slug' => 'move_job',        'label' => 'Mover as tarefas'],
             ['slug' => 'archive_job',     'label' => 'Arquivar jobs'],
             ['slug' => 'edit_members',    'label' => 'Editar membros'],
-            ['slug' => 'move_jobs_between_lists', 'label' => 'Mover jobs entre listas'],
             ['slug' => 'comment_on_job',  'label' => 'Comentar em jobs'],
 
             // Permissões de usuários
