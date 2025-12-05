@@ -18,7 +18,6 @@ class Permissions
     public const MOVE_JOB      = 'move_job';
     public const ARCHIVE_JOB   = 'archive_job';
     public const EDIT_MEMBERS   = 'edit_members';
-    public const MOVE_JOBS_BETWEEN_LISTS = 'move_jobs_between_lists';
     public const COMMENT_ON_JOB = 'comment_on_job';
 
     // Permissões de usuários
@@ -41,4 +40,7 @@ class Permissions
     public const EDIT_ROLE     = 'edit_role';
     public const ARCHIVE_ROLE   = 'archive_role';
     public const DELETE_ROLE   = 'delete_role';
+
+    // Permissoões da dashboard
+    public const VIEW_DASHBOARD = 'view_dashboard';
 }

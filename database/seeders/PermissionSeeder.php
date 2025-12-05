@@ -51,6 +51,9 @@ class PermissionSeeder extends Seeder
             ['slug' => 'edit_role',       'label' => 'Editar cargos'],
             ['slug' => 'archive_role',    'label' => 'Arquivar cargos'],
             ['slug' => 'delete_role',     'label' => 'Excluir cargos'],
+
+            // Permissões da dashboard
+            ['slug' => 'view_dashboard',  'label' => 'Visualizar dashboard'],
         ];
 
         foreach ($permissions as $perm) {
