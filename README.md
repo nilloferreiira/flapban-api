@@ -1,6 +1,8 @@
-# Flap API
+# Flapban API
 
-API para o sistema Flap — serviço backend para um quadro Kanban com usuários, cargos, clientes, listas (colunas) e jobs (cards), incluindo elementos de tarefa como comentários, links, membros e checklists.
+API para o sistema Flapban — serviço backend para um quadro Kanban com usuários, cargos, clientes, listas (colunas) e jobs (cards), incluindo elementos de tarefa como comentários, links, membros e checklists.
+
+[Repositório do frontend no GitHub](https://github.com/nilloferreiira/flapban-api)
 
 Este README resume como instalar, executar e desenvolver localmente, e traz um resumo das principais funcionalidades (baseado no manual do usuário).
 
